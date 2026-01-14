@@ -1,5 +1,13 @@
-import { describe, it, expect } from "vitest";
-import { parseTodoLine, parseTodoTxt, serializeTodo, updateTodoInList, appendTaskToFile, updateTaskAtLine, deleteTaskAtLine } from "./parser";
+import { describe, expect, it } from "vitest";
+import {
+	appendTaskToFile,
+	deleteTaskAtLine,
+	parseTodoLine,
+	parseTodoTxt,
+	serializeTodo,
+	updateTaskAtLine,
+	updateTodoInList,
+} from "./parser";
 import type { Todo } from "./types";
 
 describe("parse completion", () => {
@@ -136,9 +144,7 @@ describe("parse tags", () => {
 	});
 
 	it("複数のタグを抽出", () => {
-		const result = parseTodoLine(
-			"Task due:2026-01-15 t:2026-01-10 rec:+1w",
-		);
+		const result = parseTodoLine("Task due:2026-01-15 t:2026-01-10 rec:+1w");
 		expect(result.tags).toEqual({
 			due: "2026-01-15",
 			t: "2026-01-10",
@@ -364,7 +370,9 @@ describe("serialize Todo to todo.txt format", () => {
 			};
 
 			const result = serializeTodo(todo);
-			expect(result).toBe("x (A) 2026-01-08 2026-01-01 Review +ProjectX code @office due:2026-01-10");
+			expect(result).toBe(
+				"x (A) 2026-01-08 2026-01-01 Review +ProjectX code @office due:2026-01-10",
+			);
 		});
 	});
 });
@@ -491,7 +499,9 @@ describe("save toggled task to file", () => {
 
 		const result = updateTodoInList(todos, 1, updatedTodo);
 
-		expect(result).toBe("(A) 2026-01-01 Call Mom +Family @phone\nx 2026-01-08 Buy milk +GroceryShopping");
+		expect(result).toBe(
+			"(A) 2026-01-01 Call Mom +Family @phone\nx 2026-01-08 Buy milk +GroceryShopping",
+		);
 	});
 });
 
@@ -545,7 +555,9 @@ describe("append task to file", () => {
 
 		const result = appendTaskToFile(content, newTask);
 
-		expect(result).toBe("(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy groceries\n(C) 2026-01-08 Write report +Work @office");
+		expect(result).toBe(
+			"(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy groceries\n(C) 2026-01-08 Write report +Work @office",
+		);
 	});
 
 	it("末尾改行なしのファイルにタスクを追加", () => {
@@ -562,13 +574,16 @@ describe("append task to file", () => {
 
 		const result = appendTaskToFile(content, newTask);
 
-		expect(result).toBe("(A) 2026-01-01 Call Mom\n2026-01-08 Buy milk +GroceryShopping");
+		expect(result).toBe(
+			"(A) 2026-01-01 Call Mom\n2026-01-08 Buy milk +GroceryShopping",
+		);
 	});
 });
 
 describe("update task at specific line", () => {
 	it("先頭行を更新できる", () => {
-		const content = "(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report";
+		const content =
+			"(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report";
 		const updatedTodo: Todo = {
 			completed: true,
 			completionDate: "2026-01-08",
@@ -583,11 +598,14 @@ describe("update task at specific line", () => {
 
 		const result = updateTaskAtLine(content, 0, updatedTodo);
 
-		expect(result).toBe("x (A) 2026-01-08 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report");
+		expect(result).toBe(
+			"x (A) 2026-01-08 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report",
+		);
 	});
 
 	it("中間行を更新できる", () => {
-		const content = "(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report";
+		const content =
+			"(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report";
 		const updatedTodo: Todo = {
 			completed: false,
 			priority: "A",
@@ -601,11 +619,14 @@ describe("update task at specific line", () => {
 
 		const result = updateTaskAtLine(content, 1, updatedTodo);
 
-		expect(result).toBe("(A) 2026-01-01 Call Mom\n(A) 2026-01-02 Buy bread +GroceryShopping\n(C) 2026-01-03 Write report");
+		expect(result).toBe(
+			"(A) 2026-01-01 Call Mom\n(A) 2026-01-02 Buy bread +GroceryShopping\n(C) 2026-01-03 Write report",
+		);
 	});
 
 	it("末尾行を更新できる", () => {
-		const content = "(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report";
+		const content =
+			"(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report";
 		const updatedTodo: Todo = {
 			completed: false,
 			priority: "C",
@@ -619,7 +640,9 @@ describe("update task at specific line", () => {
 
 		const result = updateTaskAtLine(content, 2, updatedTodo);
 
-		expect(result).toBe("(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report @office");
+		expect(result).toBe(
+			"(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report @office",
+		);
 	});
 
 	it("範囲外のインデックスでエラーハンドリング", () => {
@@ -666,7 +689,8 @@ describe("delete task at line index", () => {
 	});
 
 	it("末尾行のタスクを削除できる", () => {
-		const content = "(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report";
+		const content =
+			"(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report";
 
 		const result = deleteTaskAtLine(content, 2);
 
@@ -674,7 +698,8 @@ describe("delete task at line index", () => {
 	});
 
 	it("中間行のタスクを削除できる", () => {
-		const content = "(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report";
+		const content =
+			"(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report";
 
 		const result = deleteTaskAtLine(content, 1);
 
@@ -682,7 +707,8 @@ describe("delete task at line index", () => {
 	});
 
 	it("先頭行のタスクを削除できる", () => {
-		const content = "(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report";
+		const content =
+			"(A) 2026-01-01 Call Mom\n(B) 2026-01-02 Buy milk\n(C) 2026-01-03 Write report";
 
 		const result = deleteTaskAtLine(content, 0);
 
@@ -1039,7 +1065,7 @@ describe("tag edge cases", () => {
 
 	it("T-12: キー:値 日本語タグ（実装ポリシー: Unicode許可）", () => {
 		const result = parseTodoLine("Task キー:値");
-		expect(result.tags).toEqual({ "キー": "値" });
+		expect(result.tags).toEqual({ キー: "値" });
 		expect(result.description).toBe("Task キー:値");
 	});
 });
@@ -1118,7 +1144,7 @@ describe("whitespace and special characters", () => {
 		expect(result.description).toContain("Task");
 	});
 
-	it("S-05: Task \"quotes\" here ダブルクォート", () => {
+	it('S-05: Task "quotes" here ダブルクォート', () => {
 		const result = parseTodoLine('Task "quotes" here');
 		expect(result.description).toBe('Task "quotes" here');
 	});
@@ -1163,57 +1189,79 @@ describe("whitespace and special characters", () => {
 
 describe("practical combined patterns", () => {
 	it("R-01: 全要素組み合わせ - 優先度+作成日+プロジェクト+コンテキスト+タグ", () => {
-		const result = parseTodoLine("(A) 2024-01-13 Submit expense report +Work @computer due:2024-01-20");
+		const result = parseTodoLine(
+			"(A) 2024-01-13 Submit expense report +Work @computer due:2024-01-20",
+		);
 		expect(result.completed).toBe(false);
 		expect(result.priority).toBe("A");
 		expect(result.creationDate).toBe("2024-01-13");
 		expect(result.projects).toEqual(["Work"]);
 		expect(result.contexts).toEqual(["computer"]);
 		expect(result.tags).toEqual({ due: "2024-01-20" });
-		expect(result.description).toBe("Submit expense report +Work @computer due:2024-01-20");
+		expect(result.description).toBe(
+			"Submit expense report +Work @computer due:2024-01-20",
+		);
 	});
 
 	it("R-02: 優先度+プロジェクト+コンテキスト+複数タグ", () => {
-		const result = parseTodoLine("(B) Prepare slides +VimConf @focus est:2h owner:hayashi");
+		const result = parseTodoLine(
+			"(B) Prepare slides +VimConf @focus est:2h owner:hayashi",
+		);
 		expect(result.priority).toBe("B");
 		expect(result.projects).toEqual(["VimConf"]);
 		expect(result.contexts).toEqual(["focus"]);
 		expect(result.tags).toEqual({ est: "2h", owner: "hayashi" });
-		expect(result.description).toBe("Prepare slides +VimConf @focus est:2h owner:hayashi");
+		expect(result.description).toBe(
+			"Prepare slides +VimConf @focus est:2h owner:hayashi",
+		);
 	});
 
 	it("R-03: 完了+両日付+プロジェクト+コンテキスト+タグ", () => {
-		const result = parseTodoLine("x 2024-01-10 2024-01-02 Fix prod incident +Ops @oncall ticket:INC1234");
+		const result = parseTodoLine(
+			"x 2024-01-10 2024-01-02 Fix prod incident +Ops @oncall ticket:INC1234",
+		);
 		expect(result.completed).toBe(true);
 		expect(result.completionDate).toBe("2024-01-10");
 		expect(result.creationDate).toBe("2024-01-02");
 		expect(result.projects).toEqual(["Ops"]);
 		expect(result.contexts).toEqual(["oncall"]);
 		expect(result.tags).toEqual({ ticket: "INC1234" });
-		expect(result.description).toBe("Fix prod incident +Ops @oncall ticket:INC1234");
+		expect(result.description).toBe(
+			"Fix prod incident +Ops @oncall ticket:INC1234",
+		);
 	});
 
 	it("R-04: 作成日+プロジェクト+コンテキスト+タグ", () => {
-		const result = parseTodoLine("2024-01-05 Weekly review +Personal @home recur:weekly");
+		const result = parseTodoLine(
+			"2024-01-05 Weekly review +Personal @home recur:weekly",
+		);
 		expect(result.creationDate).toBe("2024-01-05");
 		expect(result.projects).toEqual(["Personal"]);
 		expect(result.contexts).toEqual(["home"]);
 		expect(result.tags).toEqual({ recur: "weekly" });
-		expect(result.description).toBe("Weekly review +Personal @home recur:weekly");
+		expect(result.description).toBe(
+			"Weekly review +Personal @home recur:weekly",
+		);
 	});
 
 	it("R-05: 優先度+作成日+プロジェクト+コンテキスト+アンダースコア含むタグ", () => {
-		const result = parseTodoLine("(C) 2024-01-03 Call Mom +Family @phone note:Remember_to_ask_about_trip");
+		const result = parseTodoLine(
+			"(C) 2024-01-03 Call Mom +Family @phone note:Remember_to_ask_about_trip",
+		);
 		expect(result.priority).toBe("C");
 		expect(result.creationDate).toBe("2024-01-03");
 		expect(result.projects).toEqual(["Family"]);
 		expect(result.contexts).toEqual(["phone"]);
 		expect(result.tags).toEqual({ note: "Remember_to_ask_about_trip" });
-		expect(result.description).toBe("Call Mom +Family @phone note:Remember_to_ask_about_trip");
+		expect(result.description).toBe(
+			"Call Mom +Family @phone note:Remember_to_ask_about_trip",
+		);
 	});
 
 	it("R-06: 完了+両日付+プロジェクト+コンテキスト+数値タグ", () => {
-		const result = parseTodoLine("x 2024-01-18 2024-01-10 Bug fix complete +webapp @dev issue:123");
+		const result = parseTodoLine(
+			"x 2024-01-18 2024-01-10 Bug fix complete +webapp @dev issue:123",
+		);
 		expect(result.completed).toBe(true);
 		expect(result.completionDate).toBe("2024-01-18");
 		expect(result.creationDate).toBe("2024-01-10");
@@ -1231,10 +1279,14 @@ describe("practical combined patterns", () => {
 	});
 
 	it("R-08: プロジェクト+複数コンテキスト+日付タグ", () => {
-		const result = parseTodoLine("Call John about +ProjectX @phone @waiting due:2024-02-01");
+		const result = parseTodoLine(
+			"Call John about +ProjectX @phone @waiting due:2024-02-01",
+		);
 		expect(result.projects).toEqual(["ProjectX"]);
 		expect(result.contexts).toEqual(["phone", "waiting"]);
 		expect(result.tags).toEqual({ due: "2024-02-01" });
-		expect(result.description).toBe("Call John about +ProjectX @phone @waiting due:2024-02-01");
+		expect(result.description).toBe(
+			"Call John about +ProjectX @phone @waiting due:2024-02-01",
+		);
 	});
 });

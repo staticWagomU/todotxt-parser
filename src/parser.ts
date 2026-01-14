@@ -114,7 +114,12 @@ export function parseTodoLine(line: string): Todo {
 	const tagMatches = trimmed.matchAll(/(\S+?):(\S+)/g);
 	for (const match of tagMatches) {
 		// Skip if it's a project or context (already parsed)
-		if (match[1] && match[2] && !match[0].startsWith("+") && !match[0].startsWith("@")) {
+		if (
+			match[1] &&
+			match[2] &&
+			!match[0].startsWith("+") &&
+			!match[0].startsWith("@")
+		) {
 			tags[match[1]] = match[2];
 		}
 	}
@@ -191,7 +196,11 @@ export function serializeTodo(todo: Todo): string {
  * @param updatedTodo - The updated Todo object
  * @returns Serialized string of all todos
  */
-export function updateTodoInList(todos: Todo[], index: number, updatedTodo: Todo): string {
+export function updateTodoInList(
+	todos: Todo[],
+	index: number,
+	updatedTodo: Todo,
+): string {
 	if (todos.length === 0) {
 		return "";
 	}
@@ -233,7 +242,11 @@ export function appendTaskToFile(content: string, newTask: Todo): string {
  * @param updatedTodo - The updated Todo object
  * @returns Updated file content
  */
-export function updateTaskAtLine(content: string, lineIndex: number, updatedTodo: Todo): string {
+export function updateTaskAtLine(
+	content: string,
+	lineIndex: number,
+	updatedTodo: Todo,
+): string {
 	if (content.length === 0) {
 		return "";
 	}

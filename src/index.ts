@@ -7,14 +7,13 @@
  * @see https://github.com/todotxt/todo.txt
  */
 
-export type { Todo } from "./types";
-
 export {
-	parseTodoTxt,
-	parseTodoLine,
-	serializeTodo,
-	updateTodoInList,
 	appendTaskToFile,
-	updateTaskAtLine,
 	deleteTaskAtLine,
+	parseTodoLine,
+	parseTodoTxt,
+	serializeTodo,
+	updateTaskAtLine,
+	updateTodoInList,
 } from "./parser";
+export type { Todo } from "./types";
