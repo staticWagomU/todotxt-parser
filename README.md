@@ -1,13 +1,13 @@
-# @staticwagomU/todotxt-parser
+# @wagomu/todotxt-parser
 
 A pure TypeScript parser for [todo.txt](https://github.com/todotxt/todo.txt) format.
 
 ## Installation
 
 ```bash
-npm install @staticwagomU/todotxt-parser
+npm install @wagomu/todotxt-parser
 # or
-pnpm add @staticwagomU/todotxt-parser
+pnpm add @wagomu/todotxt-parser
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ pnpm add @staticwagomU/todotxt-parser
 ### Parsing
 
 ```typescript
-import { parseTodoTxt, parseTodoLine } from "@staticwagomU/todotxt-parser";
+import { parseTodoTxt, parseTodoLine } from "@wagomu/todotxt-parser";
 
 // Parse multiple lines
 const todos = parseTodoTxt(`(A) 2024-01-01 Call Mom +Family @phone
@@ -38,8 +38,8 @@ const todo = parseTodoLine("(A) 2024-01-01 Call Mom +Family @phone due:2024-01-1
 ### Serializing
 
 ```typescript
-import { serializeTodo } from "@staticwagomU/todotxt-parser";
-import type { Todo } from "@staticwagomU/todotxt-parser";
+import { serializeTodo } from "@wagomu/todotxt-parser";
+import type { Todo } from "@wagomu/todotxt-parser";
 
 const todo: Todo = {
   completed: true,
@@ -63,7 +63,7 @@ import {
   appendTaskToFile,
   updateTaskAtLine,
   deleteTaskAtLine,
-} from "@staticwagomU/todotxt-parser";
+} from "@wagomu/todotxt-parser";
 
 // Append a new task
 const newContent = appendTaskToFile(existingContent, newTodo);
