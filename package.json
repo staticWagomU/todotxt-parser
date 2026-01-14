@@ -1,0 +1,49 @@
+{
+	"name": "@staticwagomu/todotxt-parser",
+	"version": "0.0.1",
+	"description": "A pure TypeScript parser for todo.txt format",
+	"license": "0-BSD",
+	"author": "staticWagomU",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/staticWagomU/todotxt-parser.git"
+	},
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsup",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"lint": "tsc --noEmit",
+		"prepublishOnly": "pnpm run build"
+	},
+	"devDependencies": {
+		"tsup": "^8.5.0",
+		"typescript": "^5.8.3",
+		"vitest": "^4.0.16"
+	},
+	"keywords": [
+		"todo.txt",
+		"todotxt",
+		"parser",
+		"task",
+		"productivity"
+	]
+}
